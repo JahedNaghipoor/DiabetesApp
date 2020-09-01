@@ -8,7 +8,7 @@ import pickle
 def main():
 
  st.write(""" # Diabetes Detection """)
- df = pd.read_csv("C:/Users/Jahed/Desktop/Machine learning web applications/WebApp1/diabetes.csv")
+ df = pd.read_csv("diabetes.csv")
  st.subheader("Data Information:")
  st.dataframe(df.head(20))
  st.bar_chart(df)
