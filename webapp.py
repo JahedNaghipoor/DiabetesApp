@@ -5,16 +5,37 @@ from sklearn.ensemble import RandomForestClassifier
 import streamlit as st
 import pickle
 
-st.write(""" # Diabetes Detection """)
-df = pd.read_csv("C:/Users/Jahed/Desktop/Machine learning web applications/WebApp1/diabetes.csv")
-st.subheader("Data Information:")
-st.dataframe(df.head(20))
-chart = st.bar_chart(df)
+def main():
 
-X = df.iloc[:,0:8].values
-y = df.iloc[:,-1].values
+ st.write(""" # Diabetes Detection """)
+ df = pd.read_csv("C:/Users/Jahed/Desktop/Machine learning web applications/WebApp1/diabetes.csv")
+ st.subheader("Data Information:")
+ st.dataframe(df.head(20))
+ st.bar_chart(df)
 
-X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.25, random_state=111)
+ X = df.iloc[:,0:8].values
+ y = df.iloc[:,-1].values
+
+ X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.25, random_state=111)
+
+ user_input = get_user_input()
+ st.subheader('User Input:')
+ st.write(user_input)
+
+ rf = RandomForestClassifier()
+ rf.fit(X_train, y_train)
+
+ pickle.dump(rf, open('model.pkl','wb'))  
+
+ model = pickle.load(open('model.pkl','rb'))
+ y_pred = model.predict(X_test)
+
+
+ st.subheader('Model Test Accuracy Score: '+ str(round(accuracy_score(y_test, y_pred),4)*100)+' %')
+
+ prediction = rf.predict(user_input)
+
+ st.subheader('Diabetes: ' + ('Negative', 'Positive')[int(prediction)])
 
 def get_user_input():
     pregnencies = st.sidebar.slider("Pregnencies", 0,17,3)
@@ -39,26 +60,9 @@ def get_user_input():
     
     features = pd.DataFrame(user_data, index=[0])
     return features
-        
-        
-user_input = get_user_input()
-st.subheader('User Input:')
-st.write(user_input)
 
-rf = RandomForestClassifier()
-rf.fit(X_train, y_train)
-
-pickle.dump(rf, open('model.pkl','wb'))  
-
-model = pickle.load(open('model.pkl','rb'))
-y_pred = model.predict(X_test)
-
-
-st.subheader('Model Test Accuracy Score: '+ str(round(accuracy_score(y_test, y_pred),4)*100)+' %')
-
-prediction = rf.predict(user_input)
-
-st.subheader('Diabetes: ' + ('Negative', 'Positive')[int(prediction)])
+if __name__ == '__main__':
+    main()
 
 
 
