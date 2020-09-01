@@ -2,7 +2,6 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 import streamlit as st
 
 def main():
@@ -23,16 +22,12 @@ def main():
  st.write(user_input)
 
  rf = RandomForestClassifier()
- lr = LogisticRegression()
- 
  rf.fit(X_train, y_train)
- lr.fit(X_train, y_train)
 
- y_pred_rf = rf.predict(X_test)
- y_pred_lr = lr.predict(X_test)
+ y_pred_rf = model.predict(X_test)
 
- st.subheader('Accuracy Score (Random Forest): '+ str(round(accuracy_score(y_test, y_pred_rf),4)*100)+' %')
- st.subheader('Accuracy Score (Logistic Regression): '+ str(round(accuracy_score(y_test, y_pred_lr),4)*100)+' %')
+
+ st.subheader('Model Test Accuracy Score: '+ str(round(accuracy_score(y_test, y_pred),4)*100)+' %')
 
  prediction = rf.predict(user_input)
 
