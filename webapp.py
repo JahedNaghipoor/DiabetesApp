@@ -24,7 +24,7 @@ def main():
  rf = RandomForestClassifier()
  rf.fit(X_train, y_train)
 
- y_pred_rf = rf.predict(X_test)
+ y_pred = rf.predict(X_test)
 
 
  st.subheader('Model Test Accuracy Score: '+ str(round(accuracy_score(y_test, y_pred),4)*100)+' %')
